@@ -167,7 +167,7 @@ This project is registered with the Korea Copyright Commission.
 
 —-
 
-## Play Numtter :https://soosooland.com/numtter/   
+## Play Numtle :https://soosooland.com/numtle/   
 
 ---
 ## 🌟 Soosooland - Puzzle Game Hub by Han Soosoo
