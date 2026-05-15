@@ -744,8 +744,8 @@ body {
     game.start();
   };
 
-  // 점수 저장 및 랭킹 표시
-  window.submitScore = async function() {
+
+    window.submitScore = async function() {
     const nickname = document.getElementById('nicknameInput').value.trim();
     if (!nickname) {
       alert('닉네임을 입력해주세요! / Please enter a nickname!');
@@ -754,14 +754,17 @@ body {
 
     const score = window.currentGame.lastCleared;
     const mode = window.currentGame.mode === 1 ? '+-' : '+-×÷';
+    
+    alert('저장 시도: ' + nickname + ' / ' + score + ' / ' + mode);
 
     await window.saveScore(nickname, score, mode);
+    
+    alert('저장 완료. 랭크 조회 중...');
 
-    // 닉네임 섹션 숨기고 랭킹 표시
-    document.getElementById('nicknameSection').style.display = 'none';
-
-    // 내 순위
     const rank = await window.getMyRank(score, mode);
+    
+    alert('랭크: ' + rank);
+
     if (rank) {
       document.getElementById('rankDisplay').textContent =
         `🏆 현재 ${rank}등 / You are ranked #${rank}`;
