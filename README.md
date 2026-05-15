@@ -38,7 +38,7 @@ Play 10 rounds. The player with the highest total score wins.
 
 ### 🧩 연산기호 조합에 따른 시리즈 정리
 
-| 사용 연산기호              | 넘즐   👤🆚🤖                 | 넘플   👤🆚👤   |기타|               
+| 사용 연산기호              | 넘즐   👤🆚🤖                 | 넘플   👤🆚👤   |넘틀, 넘털 👤|               
 |----------------|--------------------|------------------|----|
 | `+`, `-`    |넘즐초, 넘즐초맥스, 넘즐초미니      | 넘플초, 넘플초맥스, 넘플초미니      |넘틀 어려움|
 | `+`, `-`, `×`    | 넘즐잼, 넘즐잼맥스, 넘즐잼미니    | 넘플잼, 넘플잼맥스, 넘플잼미니      ||
@@ -50,11 +50,11 @@ Play 10 rounds. The player with the highest total score wins.
 
 ### 🧩 Series by Operation Symbol Combinations
 
-|Operations Used  |Numzzle   👤🆚🤖 |Numpple   👤🆚👤   |👤Numtter|
+|Operations Used  |Numzzle   👤🆚🤖 |Numpple   👤🆚👤   |👤Numtter,Numtle|
 |-----------|---------|----------|-------|
-|`+`, `-`   |Numzzle Cho, Numzzle Cho Max, Numzzle Cho Mini|Numpple Cho, Numpple Cho Max, Numpple Cho Mini     ||
+|`+`, `-`   |Numzzle Cho, Numzzle Cho Max, Numzzle Cho Mini|Numpple Cho, Numpple Cho Max, Numpple Cho Mini     |Numtle hard|
 |`+`, `-`, `×`    |Numzzle Jam, Numzzle Jam Max, Numzzle Jam Mini|Numpple Jam, Numpple Jam Max, Numpple Jam Mini   ||
-|`+`, `-`, `×`, `÷`   |Numzzle, Numzzle Max, Numzzle Mini  |Numpple, Numpple Max, Numple Mini     ||
+|`+`, `-`, `×`, `÷`   |Numzzle, Numzzle Max, Numzzle Mini  |Numpple, Numpple Max, Numple Mini     |Numtle easy|
 |`+`, `-`, `×`, `÷`, `√`, `π`|**Numzzle Up** (Very Difficult)  |—      ||
 |`+`, `-`, `×`, `÷`, `(`, `)`       |||Numtter |
 
