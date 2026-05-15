@@ -23,7 +23,7 @@ Play 10 rounds. The player with the highest total score wins.
 
 | 수식 결과 방식       | 👤🆚🤖컴퓨터와 대결   | 👤🆚👤사용자 2인 대결 |👤사용자 혼자하기|
 |------------------|--------------|----------------|----|
-| 🎯 목표값 맞추기     | 넘즐         | 넘플           |넘털|
+| 🎯 목표값 맞추기     | 넘즐         | 넘플           |넘털, 넘틀|
 | 🧮 최대값 만들기    | 넘즐 X 맥스    | 넘플 X 맥스  | |
 | 🧮 최소값 만들기    | 넘즐 X 미니    | 넘플 X 미니    |  |
 
@@ -31,18 +31,18 @@ Play 10 rounds. The player with the highest total score wins.
 
 |Formula Result Method |👤🆚🤖 vs Computer|👤🆚👤 2-Player Battle|👤 Solo Play|
 |----------------------|---------------|-------------------|-----------|
-|🎯 Hit the Target Value|Numzzle        |Numpple             |Numtter     |
+|🎯 Hit the Target Value|Numzzle        |Numpple             |Numtter, Numtle  |
 |🧮 Create Maximum Value|Numzzle X Max |Numpple X Max     |           |
 |🧮 Create Minimum Value|Numzzle X Mini |Numpple X Mini      |           |
 
 
 ### 🧩 연산기호 조합에 따른 시리즈 정리
 
-| 사용 연산기호              | 넘즐   👤🆚🤖                 | 넘플   👤🆚👤   |👤넘털|               
+| 사용 연산기호              | 넘즐   👤🆚🤖                 | 넘플   👤🆚👤   |기타|               
 |----------------|--------------------|------------------|----|
-| `+`, `-`    |넘즐초, 넘즐초맥스, 넘즐초미니      | 넘플초, 넘플초맥스, 넘플초미니      ||
+| `+`, `-`    |넘즐초, 넘즐초맥스, 넘즐초미니      | 넘플초, 넘플초맥스, 넘플초미니      |넘틀 어려움|
 | `+`, `-`, `×`    | 넘즐잼, 넘즐잼맥스, 넘즐잼미니    | 넘플잼, 넘플잼맥스, 넘플잼미니      ||
-| `+`, `-`, `×`, `÷`     | 넘즐, 넘즐맥스, 넘즐미니   | 넘플, 넘플맥스, 넘플미니     ||
+| `+`, `-`, `×`, `÷`     | 넘즐, 넘즐맥스, 넘즐미니   | 넘플, 넘플맥스, 넘플미니     |넘틀 쉬움|
 | `+`, `-`, `×`, `÷`, `√`, `π` | **넘즐업** (아주 어려움)   | —    ||
 | `+`, `-`, `×`, `÷`, `(`, `)`|||넘털|
 
@@ -67,18 +67,18 @@ Play 10 rounds. The player with the highest total score wins.
 | 카드 사용 방식                 | 포함된 게임 종류                  |
 |----------------------------|------------------------------|
 | 모든 카드 사용                 | 넘즐 X, 넘플 X                |
-| 카드 일부만 사용하는 것 허용       | 넘즐, 넘플, 넘털      |
+| 카드 일부만 사용하는 것 허용       | 넘즐, 넘플, 넘털, 넘틀      |
 | 여러 장으로 여러자리 숫자만들기 금지 | 넘즐초, 넘플초, 넘즐 X, 넘플 X           |
-| 여러 장으로 여러자리 숫자만들기 허용 | 넘즐잼, 넘즐, 넘즐업, 넘플잼, 넘플, 넘털    |
+| 여러 장으로 여러자리 숫자만들기 허용 | 넘즐잼, 넘즐, 넘즐업, 넘플잼, 넘플, 넘털, 넘틀    |
 
 ### 🃏 Classification by Card Usage Rules
 
 |Card Usage Method             |Included Game Types             |
 |-----------|---------|
 |Must use all cards            |Numzzle X, Numpple X    |
-|Allowed to use only some cards|Numzzle, Numpple, Numtter      |
+|Allowed to use only some cards|Numzzle, Numpple, Numtter, Numtle      |
 |Multi-digit numbers prohibited|Numzzle Cho, Numpple Cho, Numzzle X, Numpple X  |
-|Multi-digit numbers allowed   |Numzzle Jam, Numzzle, Numzzle Up, Numpple Jam, Numpple, Numtter|
+|Multi-digit numbers allowed   |Numzzle Jam, Numzzle, Numzzle Up, Numpple Jam, Numpple, Numtter, Numtle|
 
 ---
 
