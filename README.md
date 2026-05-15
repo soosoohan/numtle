@@ -29,13 +29,20 @@ Fail to match? Cards are added. Two-digit combinations are allowed.
 Clear down to 1 card or fewer to win!  
 
 ### 넘틀 (Numtle)
-넘틀 = 넘버 + 뜀틀Numtle = Number + Hurdle
-뜀틀처럼 한 칸씩 높이 뛰어라!Jump over number hurdles one by one!
-숫자카드로 수식을 만들어 목표숫자를 클리어하세요.Create equations with your cards to clear the target number.
-목표숫자는 1부터 매턴 1씩 올라가며 끝이 없습니다.The target number increases by 1 each turn — no end!
-카드는 사용한 만큼 자동으로 보충됩니다.Used cards are automatically replenished.
-패스하면 생명 1개를 잃습니다. 생명은 5개.Pass = lose 1 life. You have 5 lives.
-수식 결과는 자연수만 인정됩니다.Results must be natural numbers only.
+넘틀 = 넘버 + 뜀틀  
+Numtle = Number + Hurdle  
+뜀틀처럼 한 칸씩 높이 뛰어라!  
+Jump over number hurdles one by one!  
+숫자카드로 수식을 만들어 목표숫자를 클리어하세요.  
+Create equations with your cards to clear the target number.  
+목표숫자는 1부터 매턴 1씩 올라가며 끝이 없습니다.  
+The target number increases by 1 each turn — no end!  
+카드는 사용한 만큼 자동으로 보충됩니다.  
+Used cards are automatically replenished.  
+패스하면 생명 1개를 잃습니다. 생명은 5개.  
+Pass = lose 1 life. You have 5 lives.  
+수식 결과는 자연수만 인정됩니다.  
+Results must be natural numbers only.  
 
 
 ### 📌 게임 종류 비교
@@ -174,8 +181,8 @@ Explore more brain games and puzzles in **[Soosooland](https://soosooland.com/)*
 ### 👤 만든 사람 | Credits
 
 - 기획·개발 : 한수수  
-ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.
+ⓒ 2026 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.
 
 - Created and Developed by Soosoo Han  
-ⓒ 2025 Soosoo Han. All rights reserved.
+ⓒ 2026 Soosoo Han. All rights reserved.
 
