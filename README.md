@@ -1,20 +1,32 @@
 ### 🎯 넘즐 시리즈 / Numzzle Series
-넘즐(Numzzle) 은 넘버(Number) 와 퍼즐(Puzzle) 을 결합한 이름입니다.Numzzle = Number + Puzzle
-한글로는 “너무 즐겁다”는 말과 비슷해, 공부를 게임처럼 즐겁게 하자는 의미도 담고 있습니다.In Korean, it also sounds like “Neomu Jeulgeopda,” meaning “so much fun.”
+넘즐(Numzzle) 은 넘버(Number) 와 퍼즐(Puzzle) 을 결합한 이름입니다.  
+Numzzle = Number + Puzzle  
+한글로는 “너무 즐겁다”는 말과 비슷해, 공부를 게임처럼 즐겁게 하자는 의미도 담고 있습니다.  
+In Korean, it also sounds like “Neomu Jeulgeopda,” meaning “so much fun.”  
 
 ### 넘즐 (Numzzle)
-넘즐은 수학 감각과 창의력을 발휘해야 하는 재미있는 계산 게임입니다.Numzzle is a fun and strategic math game that challenges your sense of numbers and creativity.
-숫자 카드와 연산 카드가 랜덤으로 주어집니다.You receive random number and operator cards.
-한 라운드마다 주어진 카드로 수식을 만듭니다.Each round, you build an expression using cards to get as close as possible to the target number.
-총 10라운드 동안 플레이하며 누적 점수로 승패를 결정합니다.Play 10 rounds. The player with the highest total score wins.
+넘즐은 수학 감각과 창의력을 발휘해야 하는 재미있는 계산 게임입니다.  
+Numzzle is a fun and strategic math game that challenges your sense of numbers and creativity.  
+숫자 카드와 연산 카드가 랜덤으로 주어집니다.  
+You receive random number and operator cards.  
+한 라운드마다 주어진 카드로 수식을 만듭니다.  
+Each round, you build an expression using cards to get as close as possible to the target number.  
+총 10라운드 동안 플레이하며 누적 점수로 승패를 결정합니다.  
+Play 10 rounds. The player with the highest total score wins.
 
 ### 넘털 (Numtter)
-넘털 = 넘버 + 털다Numtter = Number + Toss Out
-원카드의 재미에 연산학습 효과까지!The fun of Uno with math learning benefits!
-연산기호를 선택하고, 카드로 매턴 목표숫자를 만드세요.Choose operators and create equations to match the target number each turn.
-목표숫자는 매턴마다 1씩 늘어나며 30턴에서 끝납니다.The target number increases by 1 each turn and the game ends after 30 turns.
-실패하면 카드가 추가됩니다. 두 자리 숫자 조합도 가능.Fail to match? Cards are added. Two-digit combinations are allowed.
-카드를 1장 이하로 줄이면 성공!Clear down to 1 card or fewer to win!
+넘털 = 넘버 + 털다  
+Numtter = Number + Toss Out  
+원카드의 재미에 연산학습 효과까지!  
+The fun of Uno with math learning benefits!  
+연산기호를 선택하고, 카드로 매턴 목표숫자를 만드세요.  
+Choose operators and create equations to match the target number each turn.  
+목표숫자는 매턴마다 1씩 늘어나며 30턴에서 끝납니다.  
+The target number increases by 1 each turn and the game ends after 30 turns.  
+실패하면 카드가 추가됩니다. 두 자리 숫자 조합도 가능.  
+Fail to match? Cards are added. Two-digit combinations are allowed.  
+카드를 1장 이하로 줄이면 성공!  
+Clear down to 1 card or fewer to win!  
 
 ### 넘틀 (Numtle)
 넘틀 = 넘버 + 뜀틀Numtle = Number + Hurdle
