@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Numtle - Number Hurdle Challenge | Soosooland</title>
+<meta name="description" content="Jump over number hurdles with math equations! Solo challenge with lives system.">
+<meta name="keywords" content="넘틀, 수수랜드, 수학 게임, numtle, math game, equation game, educational game">
+<meta name="author" content="Soosooland">
+<meta property="og:title" content="Numtle - Number Hurdle Challenge">
+<meta property="og:description" content="Jump over number hurdles with math equations!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://soosooland.com/numtle/">
+<meta property="og:site_name" content="Soosooland">
+<link rel="canonical" href="https://soosooland.com/numtle/">
+<link rel="stylesheet" href="https://soosooland.com/css/protection.css">
+<script src="https://soosooland.com/js/protection.js"></script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKPsiVnPXc-_ePKGKvAs08I_jDDoAKdfA",
+    authDomain: "numtle.firebaseapp.com",
+    projectId: "numtle",
+    storageBucket: "numtle.firebasestorage.app",
+    messagingSenderId: "420723421680",
+    appId: "1:420723421680:web:35bc4196e7b9c1a99b6d35",
+    measurementId: "G-S8YMC7R9XL"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.saveScore = async function(nickname, score, mode) {
+    try {
+      await addDoc(collection(db, "scores"), {
+        nickname,
+        score,
+        mode,
+        timestamp: new Date()
+      });
+    } catch (e) {
+      console.error("Error saving score:", e);
+    }
+  };
+
+  window.getRankings = async function(mode) {
+    try {
+    
+
+ // getRankings
+const q = query(
+  collection(db, "scores"),
+  where("mode", "==", mode),
+  orderBy("score", "desc"),
+  limit(10)
+);
+
+// getMyRank
+const q = query(
+  collection(db, "scores"),
+  where("mode", "==", mode),
+  orderBy("score", "desc")
+);
+
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => doc.data());
+    } catch (e) {
+      console.error("Error getting rankings:", e);
+      return [];
+    }
+  };
+
+  window.getMyRank = async function(score, mode) {
+    try {
+
+const q = query(collection(db, "scores"), where("mode", "==", mode), orderBy("score", "desc"));
+
+      const snapshot = await getDocs(q);
+      const scores = snapshot.docs.map(doc => doc.data());
+      const rank = scores.findIndex(s => s.score <= score) + 1;
+      return rank || scores.length + 1;
+    } catch (e) {
+      return null;
+    }
+  };
+</script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #1a6b3a;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container { max-width: 700px; width: 100%; }
+
+.game-title {
+  text-align: center;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ── 시작 화면 ── */
+.start-screen {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.game-description {
+  background: #e0f7ec;
+  color: #1a6b3a;
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.mode-selection { margin: 24px 0; }
+.mode-selection h3 { color: #1a6b3a; margin-bottom: 16px; font-size: 25px; }
+
+.mode-options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+.mode-btn {
+  background: white;
+  border: 2px solid #1a6b3a;
+  color: #1a6b3a;
+  padding: 10px 10px;
+  border-radius: 12px;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 160px;
+}
+
+.mode-btn:hover, .mode-btn.selected {
+  background: #1a6b3a;
+  color: white;
+}
+
+.start-btn {
+  background: #1a6b3a;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.2s;
+}
+
+.start-btn:hover { background: #145530; }
+.start-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+/* ── 게임 화면 ── */
+.game-screen { display: none; }
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.back-btn {
+  background: #95a5a6;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.lives-display {
+  font-size: 28px;
+  letter-spacing: 4px;
+}
+
+.target-display {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.target-number {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1a6b3a;
+}
+
+.target-sub {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.operators-section {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #1a6b3a;
+  margin-bottom: 12px;
+}
+
+.operators { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.operator {
+  background: #1a6b3a;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.operator:hover { background: #145530; }
+
+.cards-section {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  width: 60px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.card:hover { border-color: #1a6b3a; background: #f0fff4; }
+
+.card.selected {
+  border-color: #95a5a6;
+  background: #95a5a6;
+  color: #7f8c8d;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card.selected:hover { border-color: #95a5a6; background: #95a5a6; }
+
+.expression-display {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 1.2em;
+  color: #333;
+  min-height: 42px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-submit { background: #1a6b3a; color: white; }
+.btn-submit:hover { background: #145530; }
+.btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+.btn-skip { background: #ff6b6b; color: white; }
+.btn-skip:hover { background: #e55555; }
+.btn-reset { background: #95a5a6; color: white; }
+.btn-reset:hover { background: #7f8c8d; }
+
+/* ── 게임오버 오버레이 ── */
+.game-over {
+  background: rgba(0,0,0,0.8);
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.game-over-content {
+  background: white;
+  padding: 36px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+}
+
+.game-over-content h2 { font-size: 26px; margin-bottom: 10px; }
+.game-over-content p { color: #555; margin-bottom: 16px; }
+
+.score-display {
+  font-size: 48px;
+  font-weight: bold;
+  color: #1a6b3a;
+  margin: 10px 0;
+}
+
+.rank-display {
+  font-size: 20px;
+  color: #e67e22;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.nickname-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #1a6b3a;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.rankings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.rankings-table th {
+  background: #1a6b3a;
+  color: white;
+  padding: 8px;
+}
+
+.rankings-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.rankings-table tr.my-rank td { background: #e0f7ec; font-weight: bold; }
+
+.back-button {
+  position: absolute;
+  top: 20px; left: 20px;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #FFD6BA;
+  color: #7A2E2E;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 100;
+}
+
+.back-button:hover { background-color: #FF9494; color: white; }
+
+.credits { color: rgba(255,255,255,0.6); text-align: center; margin-top: 20px; font-size: 13px; }
+</style>
+</head>
+<body data-game-id="numtle" data-game-type="index">
+<button class="back-button" onclick="location.href='https://soosooland.com/'">Soosooland</button>
+
+<div class="container">
+  <div class="game-title">넘틀 (NUMTLE)</div>
+
+  <!-- 시작 화면 -->
+  <div class="start-screen" id="startScreen">
+    <div class="game-description">
+      <strong>뜀틀처럼 한 칸씩 높이 뛰어라!</strong><br>
+      숫자카드로 수식을 만들어 목표숫자를 클리어하세요.<br>
+      목표숫자는 1부터 매턴 1씩 올라가며 끝이 없습니다.<br>
+      카드는 사용한 만큼 자동으로 보충됩니다.<br>
+      패스하면 생명 1개를 잃습니다. 생명은 5개.<br>
+      수식 결과는 자연수만 인정됩니다.<br><br>
+      <strong>Jump over number hurdles one by one!</strong><br>
+      Create equations with your cards to clear the target number.<br>
+      Target increases by 1 each turn — no end!<br>
+      Used cards are automatically replenished.<br>
+      Pass = lose 1 life. You have 5 lives.<br>
+      Results must be natural numbers only.
+    </div>
+
+    <div class="mode-selection">
+      <h3>모드 선택 / Select Mode</h3>
+      <div class="mode-options">
+        
+<button class="mode-btn selected" id="modeBtn1" onclick="selectMode(1)">
+  +  −
+</button>
+<button class="mode-btn" id="modeBtn2" onclick="selectMode(2)">
+  + − × ÷
+</button>
+      </div>
+    </div>
+
+    <button class="start-btn" id="startBtn">게임 시작 / Start Game</button>
+  </div>
+
+  <!-- 게임 화면 -->
+  <div class="game-screen" id="gameScreen">
+    <div class="top-bar">
+      <button class="back-btn" id="backBtn">◀ 설정 / Settings</button>
+      <div class="lives-display" id="livesDisplay">❤️❤️❤️❤️❤️</div>
+    </div>
+
+    <div class="target-display">
+      <div class="target-number">목표: <span id="targetNumber">1</span></div>
+      <div class="target-sub">Target: <span id="targetNumberEng">1</span></div>
+    </div>
+
+    <div class="operators-section">
+      <div class="section-title">연산기호 / Operators</div>
+      <div class="operators" id="operators"></div>
+    </div>
+
+    <div class="cards-section">
+      <div class="section-title">내 카드 (<span id="cardCount">5</span>장) / My Cards (<span id="cardCountEng">5</span>)</div>
+      <div class="cards" id="cards"></div>
+      <div class="expression-display" id="expression"></div>
+      <div class="buttons">
+        <button class="btn btn-submit" id="submitBtn" disabled>✓ 제출 / Submit</button>
+        <button class="btn btn-skip" id="skipBtn">❌ 패스 / Pass</button>
+        <button class="btn btn-reset" id="clearBtn">🗑️ 지우기 / Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 게임오버 -->
+<div class="game-over" id="gameOver">
+  <div class="game-over-content">
+    <h2>😢 게임오버 / Game Over</h2>
+    <p>최종 점수 / Final Score</p>
+    <div class="score-display" id="finalScore">0</div>
+    <div class="rank-display" id="rankDisplay"></div>
+
+    <div id="nicknameSection">
+      <input class="nickname-input" id="nicknameInput" type="text"
+             placeholder="닉네임 입력 / Enter nickname" maxlength="12">
+      <button class="btn btn-submit" style="width:100%; margin-bottom:10px"
+              onclick="submitScore()">기록 등록 / Save Score</button>
+    </div>
+
+    <div id="rankingsSection" style="display:none">
+      <table class="rankings-table" id="rankingsTable">
+        <thead><tr><th>순위</th><th>닉네임</th><th>점수</th></tr></thead>
+        <tbody id="rankingsBody"></tbody>
+      </table>
+    </div>
+
+    <button class="btn btn-submit" style="margin-top:10px; width:100%"
+            onclick="location.reload()">다시 시작 / Restart</button>
+  </div>
+</div>
+
+<div class="credits"><p>© 2026 Soosoo Han. All rights reserved.</p></div>
+
+<script>
+  let selectedMode = 1;
+
+  function selectMode(mode) {
+    selectedMode = mode;
+    document.getElementById('modeBtn1').classList.toggle('selected', mode === 1);
+    document.getElementById('modeBtn2').classList.toggle('selected', mode === 2);
+  }
+
+  class NumtleGame {
+    constructor() {
+      this.currentTarget = 1;
+      this.lives = 5;
+      this.cards = [];
+      this.expressionTokens = [];
+      this.lastCleared = 0;
+      this.mode = selectedMode;
+      this.operators = this.mode === 1 ? ['+', '-'] : ['+', '-', '×', '÷'];
+      this.hasParentheses = false;
+      this.maxCards = 20;
+
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      document.getElementById('backBtn').onclick = () => this.backToStart();
+      document.getElementById('submitBtn').onclick = () => this.submit();
+      document.getElementById('skipBtn').onclick = () => this.pass();
+      document.getElementById('clearBtn').onclick = () => this.clearExpression();
+    }
+
+    start() {
+      this.cards = Array.from({length: 5}, () => this.randomCard());
+      this.expressionTokens = [];
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('gameScreen').style.display = 'block';
+      this.updateDisplay();
+    }
+
+    backToStart() {
+      document.getElementById('gameScreen').style.display = 'none';
+      document.getElementById('startScreen').style.display = 'block';
+    }
+
+    randomCard() {
+      return Math.floor(Math.random() * 10) + 1;
+    }
+
+    updateLives() {
+      const hearts = '❤️'.repeat(this.lives) + '🖤'.repeat(5 - this.lives);
+      document.getElementById('livesDisplay').textContent = hearts;
+    }
+
+    updateDisplay() {
+      document.getElementById('targetNumber').textContent = this.currentTarget;
+      document.getElementById('targetNumberEng').textContent = this.currentTarget;
+      document.getElementById('cardCount').textContent = this.cards.length;
+      document.getElementById('cardCountEng').textContent = this.cards.length;
+      this.updateLives();
+      this.updateOperators();
+      this.updateCards();
+      this.updateExpression();
+    }
+
+    updateOperators() {
+      const div = document.getElementById('operators');
+      div.innerHTML = '';
+      this.operators.forEach((op, i) => {
+        const el = document.createElement('div');
+        el.className = 'operator';
+        el.textContent = op;
+        el.onclick = () => this.selectOperator(i);
+        div.appendChild(el);
+      });
+      if (this.hasParentheses) {
+        ['(', ')'].forEach(p => {
+          const el = document.createElement('div');
+          el.className = 'operator';
+          el.textContent = p;
+          el.onclick = () => this.expressionTokens.push({type:'parenthesis', value:p}) && this.updateExpression();
+          div.appendChild(el);
+        });
+      }
+    }
+
+    updateCards() {
+      const div = document.getElementById('cards');
+      div.innerHTML = '';
+      this.cards.forEach((card, i) => {
+        const el = document.createElement('div');
+        el.className = 'card';
+        el.textContent = card;
+        el.onclick = () => this.selectCard(i);
+        div.appendChild(el);
+      });
+    }
+
+    selectCard(index) {
+      if (this.expressionTokens.some(t => t.type === 'number' && t.cardIndex === index)) return;
+      this.expressionTokens.push({type: 'number', value: this.cards[index], cardIndex: index});
+      document.querySelectorAll('.card')[index].classList.add('selected');
+      this.updateExpression();
+    }
+
+    selectOperator(index) {
+      this.expressionTokens.push({type: 'operator', value: this.operators[index]});
+      this.updateExpression();
+    }
+
+    updateExpression() {
+      const div = document.getElementById('expression');
+      const btn = document.getElementById('submitBtn');
+
+      if (this.expressionTokens.length === 0) {
+        div.textContent = '';
+        btn.disabled = true;
+        return;
+      }
+
+      let expr = this.expressionTokens.map(t => t.value).join(' ');
+
+      if (this.isValidExpression()) {
+        const result = this.calculateExpression();
+        if (result !== null && Number.isInteger(result) && result > 0) {
+          expr += ` = ${result}`;
+          btn.disabled = (result !== this.currentTarget);
+        } else {
+          expr += result !== null ? ` = ${result} (자연수 아님)` : '';
+          btn.disabled = true;
+        }
+      } else {
+        btn.disabled = true;
+      }
+
+      div.textContent = expr;
+    }
+
+    isValidExpression() {
+      if (this.expressionTokens.length === 0) return false;
+      let open = 0;
+      for (let t of this.expressionTokens) {
+        if (t.type === 'parenthesis') {
+          if (t.value === '(') open++;
+          else { open--; if (open < 0) return false; }
+        }
+      }
+      if (open !== 0) return false;
+      const first = this.expressionTokens[0];
+      const last = this.expressionTokens[this.expressionTokens.length - 1];
+      return (first.type === 'number' || first.value === '(') &&
+             (last.type === 'number' || last.value === ')');
+    }
+
+    calculateExpression() {
+      try {
+        let str = this.expressionTokens.map(t => t.value).join('');
+        str = str.replace(/×/g, '*').replace(/÷/g, '/');
+        if (!/^[0-9+\-*/().\s]+$/.test(str)) return null;
+        const result = new Function('return (' + str + ')')();
+        return isFinite(result) ? result : null;
+      } catch { return null; }
+    }
+
+    submit() {
+      const usedIndices = this.expressionTokens
+        .filter(t => t.type === 'number')
+        .map(t => t.cardIndex)
+        .sort((a, b) => b - a);
+
+      // 사용한 카드 제거
+      usedIndices.forEach(i => this.cards.splice(i, 1));
+
+      // 사용한 만큼 보충
+      usedIndices.forEach(() => this.cards.push(this.randomCard()));
+
+      this.lastCleared = this.currentTarget;
+      this.currentTarget++;
+      this.expressionTokens = [];
+      this.resetCardStates();
+      this.updateDisplay();
+    }
+
+    pass() {
+      this.lives--;
+      this.updateLives();
+
+      if (this.lives <= 0) {
+        this.gameOver();
+        return;
+      }
+
+      this.currentTarget++;
+      this.expressionTokens = [];
+      this.resetCardStates();
+      this.updateDisplay();
+    }
+
+    resetCardStates() {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    }
+
+    clearExpression() {
+      this.expressionTokens = [];
+      this.resetCardStates();
+      this.updateExpression();
+    }
+
+    gameOver() {
+      document.getElementById('finalScore').textContent = this.lastCleared;
+      document.getElementById('gameOver').style.display = 'flex';
+
+      // 1도 못 클리어하면 닉네임 입력 섹션 숨김
+      if (this.lastCleared === 0) {
+        document.getElementById('nicknameSection').style.display = 'none';
+      }
+
+      // 현재 게임 인스턴스를 전역에 저장 (submitScore에서 접근)
+      window.currentGame = this;
+    }
+  }
+
+  // 모드 버튼
+  document.getElementById('startBtn').onclick = () => {
+    const game = new NumtleGame();
+    window.currentGame = game;
+    game.start();
+  };
+
+  // 점수 저장 및 랭킹 표시
+  window.submitScore = async function() {
+    const nickname = document.getElementById('nicknameInput').value.trim();
+    if (!nickname) {
+      alert('닉네임을 입력해주세요! / Please enter a nickname!');
+      return;
+    }
+
+    const score = window.currentGame.lastCleared;
+    const mode = window.currentGame.mode === 1 ? '+-' : '+-×÷';
+
+    await window.saveScore(nickname, score, mode);
+
+    // 닉네임 섹션 숨기고 랭킹 표시
+    document.getElementById('nicknameSection').style.display = 'none';
+
+    // 내 순위
+    const rank = await window.getMyRank(score, mode);
+    if (rank) {
+      document.getElementById('rankDisplay').textContent =
+        `🏆 현재 ${rank}등 / You are ranked #${rank}`;
+    }
+
+    // TOP 10 랭킹
+    const rankings = await window.getRankings(mode);
+    const tbody = document.getElementById('rankingsBody');
+    tbody.innerHTML = '';
+    rankings.forEach((r, i) => {
+      const tr = document.createElement('tr');
+      if (r.score === score && r.nickname === nickname) tr.className = 'my-rank';
+      tr.innerHTML = `<td>${i+1}</td><td>${r.nickname}</td><td>${r.score}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('rankingsSection').style.display = 'block';
+  };
+</script>
+</body>
+</html>
+
