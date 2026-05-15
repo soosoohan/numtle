@@ -34,7 +34,8 @@
   const db = getFirestore(app);
 
   window.saveScore = async function(nickname, score, mode) {
-    try {
+      try {
+      alert('saveScore 시작');
       await addDoc(collection(db, "scores"), {
         nickname,
         score,
@@ -42,8 +43,7 @@
         timestamp: new Date()
       });
     } catch (e) {
-      console.error("Error saving score:", e);
-    }
+   }
   };
 
   window.getRankings = async function(mode) {
@@ -786,4 +786,3 @@ body {
 </script>
 </body>
 </html>
-
