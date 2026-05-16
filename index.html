@@ -1,7 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -9,15 +9,12 @@
   gtag('js', new Date());
   gtag('config', 'G-4YZHC1G9FN');
 
-  const isLocal = window.location.hostname === 'localhost' || 
+  const isLocal = window.location.hostname === 'localhost' ||
                   window.location.hostname === '127.0.0.1' ||
                   window.location.hostname.includes('192.168.');
-
   const originalGtag = gtag;
   function gtag() {
-    if (isLocal) {
-      return;
-    }
+    if (isLocal) return;
     originalGtag.apply(this, arguments);
   }
 </script>
@@ -39,7 +36,8 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBKPsiVnPXc-_ePKGKvAs08I_jDDoAKdfA",
@@ -55,46 +53,29 @@
   const db = getFirestore(app);
 
   window.saveScore = async function(nickname, score, mode) {
-      try {
-      await addDoc(collection(db, "scores"), {
-        nickname,
-        score,
-        mode,
-        timestamp: new Date()
-      });
-    } catch (e) {
-   }
+    try {
+      await addDoc(collection(db, "scores"), { nickname, score, mode, timestamp: new Date() });
+    } catch (e) {}
   };
 
   window.getRankings = async function(mode) {
-  try {
-    const q = query(          
-      collection(db, "scores"),
-      where("mode", "==", mode),
-      orderBy("score", "desc"),
-      limit(10)
-    );
-
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => doc.data());
-  } catch (e) {
-    return [];
-  }
-};
-
+    try {
+      const q = query(collection(db, "scores"), where("mode", "==", mode),
+                      orderBy("score", "desc"), limit(10));
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => doc.data());
+    } catch (e) { return []; }
+  };
 
   window.getMyRank = async function(score, mode) {
     try {
-
-const q = query(collection(db, "scores"), where("mode", "==", mode), orderBy("score", "desc"));
-
+      const q = query(collection(db, "scores"), where("mode", "==", mode),
+                      orderBy("score", "desc"));
       const snapshot = await getDocs(q);
       const scores = snapshot.docs.map(doc => doc.data());
       const rank = scores.findIndex(s => s.score <= score) + 1;
       return rank || scores.length + 1;
-    } catch (e) {
-      return null;
-    }
+    } catch (e) { return null; }
   };
 </script>
 
@@ -112,7 +93,7 @@ body {
   align-items: center;
 }
 
-.container { max-width: 700px; width: 100%; }
+.container { max-width: 700px; width: 100%; position: relative; }
 
 .game-title {
   text-align: center;
@@ -121,6 +102,43 @@ body {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+/* ── 한영 토글 ── */
+.language-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.language-btn {
+  background: rgba(255,255,255,0.3);
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.6);
+  padding: 10px;
+  margin: 0 3px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.language-btn.active {
+  background: rgba(255,255,255,0.95);
+  color: #1a6b3a;
+  border-color: rgba(255,255,255,1);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+}
+
+.language-btn:hover {
+  background: rgba(255,255,255,0.4);
+  transform: translateY(-2px);
+}
+
+/* ── 언어 표시 제어 ── */
+[data-lang="ko"] .lang-en { display: none; }
+[data-lang="en"] .lang-ko { display: none; }
 
 /* ── 시작 화면 ── */
 .start-screen {
@@ -150,7 +168,7 @@ body {
   background: white;
   border: 2px solid #1a6b3a;
   color: #1a6b3a;
-  padding: 10px 10px;
+  padding: 10px;
   border-radius: 12px;
   font-size: 25px;
   font-weight: bold;
@@ -159,10 +177,7 @@ body {
   min-width: 160px;
 }
 
-.mode-btn:hover, .mode-btn.selected {
-  background: #1a6b3a;
-  color: white;
-}
+.mode-btn:hover, .mode-btn.selected { background: #1a6b3a; color: white; }
 
 .start-btn {
   background: #1a6b3a;
@@ -201,10 +216,7 @@ body {
   cursor: pointer;
 }
 
-.lives-display {
-  font-size: 28px;
-  letter-spacing: 4px;
-}
+.lives-display { font-size: 28px; letter-spacing: 4px; }
 
 .target-display {
   background: rgba(255,255,255,0.95);
@@ -215,17 +227,8 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.target-number {
-  font-size: 28px;
-  font-weight: bold;
-  color: #1a6b3a;
-}
-
-.target-sub {
-  font-size: 14px;
-  color: #666;
-  margin-top: 4px;
-}
+.target-number { font-size: 28px; font-weight: bold; color: #1a6b3a; }
+.target-sub { font-size: 14px; color: #666; margin-top: 4px; }
 
 .operators-section {
   background: rgba(255,255,255,0.95);
@@ -235,12 +238,7 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.section-title {
-  font-size: 14px;
-  font-weight: bold;
-  color: #1a6b3a;
-  margin-bottom: 12px;
-}
+.section-title { font-size: 14px; font-weight: bold; color: #1a6b3a; margin-bottom: 12px; }
 
 .operators { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
@@ -316,12 +314,7 @@ body {
   min-height: 42px;
 }
 
-.buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+.buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
 .btn {
   padding: 12px 20px;
@@ -396,17 +389,8 @@ body {
   font-size: 14px;
 }
 
-.rankings-table th {
-  background: #1a6b3a;
-  color: white;
-  padding: 8px;
-}
-
-.rankings-table td {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
-}
-
+.rankings-table th { background: #1a6b3a; color: white; padding: 8px; }
+.rankings-table td { padding: 8px; border-bottom: 1px solid #eee; }
 .rankings-table tr.my-rank td { background: #e0f7ec; font-weight: bold; }
 
 .back-button {
@@ -426,6 +410,46 @@ body {
 .back-button:hover { background-color: #FF9494; color: white; }
 
 .credits { color: rgba(255,255,255,0.6); text-align: center; margin-top: 20px; font-size: 13px; }
+
+.save-btn {
+  background: rgba(255,255,255,0.25);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.6);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.save-btn:hover { background: rgba(255,255,255,0.4); }
+
+.save-feedback {
+  color: #a8f0c0;
+  font-size: 13px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin-left: 6px;
+}
+
+.save-feedback.show { opacity: 1; }
+
+.continue-btn {
+  background: #e67e22;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.continue-btn:hover { background: #ca6f1e; }
+
 </style>
 </head>
 <body data-game-id="numtle" data-game-type="index">
@@ -434,64 +458,108 @@ body {
 <div class="container">
   <div class="game-title">넘틀 (NUMTLE)</div>
 
+  <!-- 한영 토글 -->
+  <div class="language-toggle">
+    <button class="language-btn active" id="btnKo" onclick="setLang('ko')">한국어</button>
+    <button class="language-btn" id="btnEn" onclick="setLang('en')">English</button>
+  </div>
+
   <!-- 시작 화면 -->
   <div class="start-screen" id="startScreen">
     <div class="game-description">
-      <strong>뜀틀처럼 한 칸씩 높이 뛰어라!</strong><br>
-      숫자카드로 수식을 만들어 목표숫자를 클리어하세요.<br>
-      목표숫자는 1부터 매턴 1씩 올라가며 끝이 없습니다.<br>
-      카드는 사용한 만큼 자동으로 보충됩니다.<br>
-      패스하면 생명 1개를 잃습니다. 생명은 5개.<br>
-      수식 결과는 자연수만 인정됩니다.<br><br>
-      <strong>Jump over number hurdles one by one!</strong><br>
-      Create equations with your cards to clear the target number.<br>
-      Target increases by 1 each turn — no end!<br>
-      Used cards are automatically replenished.<br>
-      Pass = lose 1 life. You have 5 lives.<br>
-      Results must be natural numbers only.
+      <strong class="lang-ko">뜀틀처럼 한 칸씩 높이 뛰어라!</strong>
+      <strong class="lang-en">Jump over number hurdles one by one!</strong><br>
+      <span class="lang-ko">
+        숫자카드로 수식을 만들어 목표숫자를 클리어하세요.<br>
+        목표숫자는 1부터 매턴 1씩 올라가며 끝이 없습니다.<br>
+        카드는 사용한 만큼 자동으로 보충됩니다.<br>
+        패스하면 생명 1개를 잃습니다. 생명은 5개.<br>
+        수식 결과는 자연수만 인정됩니다.
+      </span>
+      <span class="lang-en">
+        Create equations with your cards to clear the target number.<br>
+        Target increases by 1 each turn — no end!<br>
+        Used cards are automatically replenished.<br>
+        Pass = lose 1 life. You have 5 lives.<br>
+        Results must be natural numbers only.
+      </span>
     </div>
 
     <div class="mode-selection">
-      <h3>모드 선택 / Select Mode</h3>
+      <h3>
+        <span class="lang-ko">모드 선택</span>
+        <span class="lang-en">Select Mode</span>
+      </h3>
       <div class="mode-options">
-        
-<button class="mode-btn selected" id="modeBtn1" onclick="selectMode(1)">
-  +  −
-</button>
-<button class="mode-btn" id="modeBtn2" onclick="selectMode(2)">
-  + − × ÷
-</button>
+        <button class="mode-btn selected" id="modeBtn1" onclick="selectMode(1)">+  −</button>
+        <button class="mode-btn" id="modeBtn2" onclick="selectMode(2)">+ − × ÷</button>
       </div>
     </div>
 
-    <button class="start-btn" id="startBtn">게임 시작 / Start Game</button>
+<div style="display:flex; gap:12px; justify-content:center; margin-top:20px;">
+  <button class="start-btn" id="startBtn" style="margin-top:0">
+    <span class="lang-ko">게임 시작</span>
+    <span class="lang-en">Start Game</span>
+  </button>
+  <button class="continue-btn" id="continueBtn" style="display:none; margin-top:0"
+          onclick="window.continueGame()">
+    <span class="lang-ko">이어하기</span>
+    <span class="lang-en">Continue</span>
+  </button>
+</div>
+
+
   </div>
 
   <!-- 게임 화면 -->
   <div class="game-screen" id="gameScreen">
-    <div class="top-bar">
-      <button class="back-btn" id="backBtn">◀ 설정 / Settings</button>
-      <div class="lives-display" id="livesDisplay">❤️❤️❤️❤️❤️</div>
-    </div>
+    
+
+<div class="top-bar">
+  <button class="back-btn" id="backBtn">
+    ◀ <span class="lang-ko">설정</span><span class="lang-en">Settings</span>
+  </button>
+  <div style="display:flex; align-items:center; gap:6px;">
+    <button class="save-btn" onclick="window.currentGame && window.currentGame.saveGame()">
+      💾 <span class="lang-ko">저장</span><span class="lang-en">Save</span>
+    </button>
+    <span class="save-feedback" id="saveFeedback">✓</span>
+  </div>
+  <div class="lives-display" id="livesDisplay">❤️❤️❤️❤️❤️</div>
+</div>
 
     <div class="target-display">
-      <div class="target-number">목표: <span id="targetNumber">1</span></div>
-      <div class="target-sub">Target: <span id="targetNumberEng">1</span></div>
+      <div class="target-number">
+        <span class="lang-ko">목표: <span id="targetNumber">1</span></span>
+        <span class="lang-en">Target: <span id="targetNumberEng">1</span></span>
+      </div>
     </div>
 
     <div class="operators-section">
-      <div class="section-title">연산기호 / Operators</div>
+      <div class="section-title">
+        <span class="lang-ko">연산기호</span>
+        <span class="lang-en">Operators</span>
+      </div>
       <div class="operators" id="operators"></div>
     </div>
 
     <div class="cards-section">
-      <div class="section-title">내 카드 (<span id="cardCount">5</span>장) / My Cards (<span id="cardCountEng">5</span>)</div>
+      <div class="section-title">
+        <span class="lang-ko">내 카드 (<span id="cardCount">5</span>장)</span>
+        <span class="lang-en">My Cards (<span id="cardCountEng">5</span>)</span>
+      </div>
       <div class="cards" id="cards"></div>
       <div class="expression-display" id="expression"></div>
       <div class="buttons">
-        <button class="btn btn-submit" id="submitBtn" disabled>✓ 제출 / Submit</button>
-        <button class="btn btn-skip" id="skipBtn">❌ 패스 / Pass</button>
-        <button class="btn btn-reset" id="clearBtn">🗑️ 지우기 / Clear</button>
+        <button class="btn btn-submit" id="submitBtn" disabled>
+          ✓ <span class="lang-ko">제출</span><span class="lang-en">Submit</span>
+        </button>
+        <button class="btn btn-skip" id="skipBtn">
+          ❌ <span class="lang-ko">패스</span><span class="lang-en">Pass</span>
+        </button>
+        <button class="btn btn-reset" id="clearBtn">
+          🗑️ <span class="lang-ko">지우기</span><span class="lang-en">Clear</span>
+        </button>
       </div>
     </div>
   </div>
@@ -500,33 +568,77 @@ body {
 <!-- 게임오버 -->
 <div class="game-over" id="gameOver">
   <div class="game-over-content">
-    <h2>😢 게임오버 / Game Over</h2>
-    <p>최종 점수 / Final Score</p>
+    <h2>😢 <span class="lang-ko">게임오버</span><span class="lang-en">Game Over</span></h2>
+    <p><span class="lang-ko">최종 점수</span><span class="lang-en">Final Score</span></p>
     <div class="score-display" id="finalScore">0</div>
     <div class="rank-display" id="rankDisplay"></div>
 
     <div id="nicknameSection">
-      <input class="nickname-input" id="nicknameInput" type="text"
-             placeholder="닉네임 입력 / Enter nickname" maxlength="12">
+      <input class="nickname-input" id="nicknameInput" type="text" maxlength="12"
+             placeholder="닉네임 입력 / Enter nickname">
       <button class="btn btn-submit" style="width:100%; margin-bottom:10px"
-              onclick="submitScore()">기록 등록 / Save Score</button>
+              onclick="submitScore()">
+        <span class="lang-ko">기록 등록</span><span class="lang-en">Save Score</span>
+      </button>
     </div>
 
     <div id="rankingsSection" style="display:none">
       <table class="rankings-table" id="rankingsTable">
-        <thead><tr><th>순위</th><th>닉네임</th><th>점수</th></tr></thead>
+        <thead>
+          <tr>
+            <th><span class="lang-ko">순위</span><span class="lang-en">Rank</span></th>
+            <th><span class="lang-ko">닉네임</span><span class="lang-en">Nickname</span></th>
+            <th><span class="lang-ko">점수</span><span class="lang-en">Score</span></th>
+          </tr>
+        </thead>
         <tbody id="rankingsBody"></tbody>
       </table>
     </div>
 
     <button class="btn btn-submit" style="margin-top:10px; width:100%"
-            onclick="location.reload()">다시 시작 / Restart</button>
+            onclick="location.reload()">
+      <span class="lang-ko">다시 시작</span><span class="lang-en">Restart</span>
+    </button>
   </div>
 </div>
 
 <div class="credits"><p>© 2026 Soosoo Han. All rights reserved.</p></div>
 
 <script>
+  // ── 한영 토글 ──────────────────────────────────
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.getElementById('btnKo').classList.toggle('active', lang === 'ko');
+    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+    localStorage.setItem('soosoo-lang', lang);
+  }
+
+  (function () {
+    const saved = localStorage.getItem('soosoo-lang') || 'ko';
+    setLang(saved);
+  })();
+  // ───────────────────────────────────────────────
+
+  // ── 언어별 텍스트 ──
+  const T = {
+    ko: {
+      notNatural:  '자연수 아님',
+      nickAlert:   '닉네임을 입력해주세요!',
+      rankMsg:     (r) => `🏆 현재 ${r}등`,
+    },
+    en: {
+      notNatural:  'Not a natural number',
+      nickAlert:   'Please enter a nickname!',
+      rankMsg:     (r) => `🏆 You are ranked #${r}`,
+    }
+  };
+
+  function t(key, ...args) {
+    const lang = document.documentElement.getAttribute('data-lang') || 'ko';
+    const val = T[lang][key];
+    return typeof val === 'function' ? val(...args) : val;
+  }
+
   let selectedMode = 1;
 
   function selectMode(mode) {
@@ -546,7 +658,6 @@ body {
       this.operators = this.mode === 1 ? ['+', '-'] : ['+', '-', '×', '÷'];
       this.hasParentheses = false;
       this.maxCards = 20;
-
       this.bindEvents();
     }
 
@@ -565,14 +676,13 @@ body {
       this.updateDisplay();
     }
 
-    backToStart() {
-      document.getElementById('gameScreen').style.display = 'none';
-      document.getElementById('startScreen').style.display = 'block';
-    }
+backToStart() {
+  selectMode(this.mode);  // ← 추가
+  document.getElementById('gameScreen').style.display = 'none';
+  document.getElementById('startScreen').style.display = 'block';
+}
 
-    randomCard() {
-      return Math.floor(Math.random() * 10) + 1;
-    }
+    randomCard() { return Math.floor(Math.random() * 10) + 1; }
 
     updateLives() {
       const hearts = '❤️'.repeat(this.lives) + '🖤'.repeat(5 - this.lives);
@@ -605,7 +715,10 @@ body {
           const el = document.createElement('div');
           el.className = 'operator';
           el.textContent = p;
-          el.onclick = () => this.expressionTokens.push({type:'parenthesis', value:p}) && this.updateExpression();
+          el.onclick = () => {
+            this.expressionTokens.push({type: 'parenthesis', value: p});
+            this.updateExpression();
+          };
           div.appendChild(el);
         });
       }
@@ -645,7 +758,7 @@ body {
         return;
       }
 
-      let expr = this.expressionTokens.map(t => t.value).join(' ');
+      let expr = this.expressionTokens.map(tok => tok.value).join(' ');
 
       if (this.isValidExpression()) {
         const result = this.calculateExpression();
@@ -653,7 +766,7 @@ body {
           expr += ` = ${result}`;
           btn.disabled = (result !== this.currentTarget);
         } else {
-          expr += result !== null ? ` = ${result} (자연수 아님)` : '';
+          expr += result !== null ? ` = ${result} (${t('notNatural')})` : '';
           btn.disabled = true;
         }
       } else {
@@ -666,9 +779,9 @@ body {
     isValidExpression() {
       if (this.expressionTokens.length === 0) return false;
       let open = 0;
-      for (let t of this.expressionTokens) {
-        if (t.type === 'parenthesis') {
-          if (t.value === '(') open++;
+      for (let tok of this.expressionTokens) {
+        if (tok.type === 'parenthesis') {
+          if (tok.value === '(') open++;
           else { open--; if (open < 0) return false; }
         }
       }
@@ -681,7 +794,7 @@ body {
 
     calculateExpression() {
       try {
-        let str = this.expressionTokens.map(t => t.value).join('');
+        let str = this.expressionTokens.map(tok => tok.value).join('');
         str = str.replace(/×/g, '*').replace(/÷/g, '/');
         if (!/^[0-9+\-*/().\s]+$/.test(str)) return null;
         const result = new Function('return (' + str + ')')();
@@ -691,14 +804,11 @@ body {
 
     submit() {
       const usedIndices = this.expressionTokens
-        .filter(t => t.type === 'number')
-        .map(t => t.cardIndex)
+        .filter(tok => tok.type === 'number')
+        .map(tok => tok.cardIndex)
         .sort((a, b) => b - a);
 
-      // 사용한 카드 제거
       usedIndices.forEach(i => this.cards.splice(i, 1));
-
-      // 사용한 만큼 보충
       usedIndices.forEach(() => this.cards.push(this.randomCard()));
 
       this.lastCleared = this.currentTarget;
@@ -727,61 +837,101 @@ body {
       document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
     }
 
-    clearExpression() {
-      this.expressionTokens = [];
-      this.resetCardStates();
-      this.updateExpression();
-    }
+clearExpression() {
+  this.expressionTokens = [];
+  this.resetCardStates();
+  this.updateExpression();
+}
+
+//  저장/불러오기 
+saveGame() {
+  const data = {
+    currentTarget: this.currentTarget,
+    lives: this.lives,
+    cards: this.cards,
+    lastCleared: this.lastCleared,
+    mode: this.mode,
+  };
+  localStorage.setItem('numtle-save', JSON.stringify(data));
+
+  const fb = document.getElementById('saveFeedback');
+  fb.classList.add('show');
+  setTimeout(() => fb.classList.remove('show'), 1500);
+}
+
 
     gameOver() {
       document.getElementById('finalScore').textContent = this.lastCleared;
       document.getElementById('gameOver').style.display = 'flex';
-
-      // 1도 못 클리어하면 닉네임 입력 섹션 숨김
       if (this.lastCleared === 0) {
         document.getElementById('nicknameSection').style.display = 'none';
       }
-
-      // 현재 게임 인스턴스를 전역에 저장 (submitScore에서 접근)
       window.currentGame = this;
     }
   }
 
-  // 모드 버튼
-  document.getElementById('startBtn').onclick = () => {
-    const game = new NumtleGame();
-    window.currentGame = game;
-    game.start();
-  };
+document.getElementById('startBtn').onclick = () => {
+  const game = new NumtleGame();
+  window.currentGame = game;
+  game.start();
+};
+
+// ── 이어하기 ──────────────────────────────
+(function checkSave() {
+  const saved = localStorage.getItem('numtle-save');
+  if (saved) {
+    document.getElementById('continueBtn').style.display = 'block';
+  }
+})();
+
+window.continueGame = function() {
+  const raw = localStorage.getItem('numtle-save');
+  if (!raw) return;
+  const data = JSON.parse(raw);
+
+  selectedMode = data.mode;
+  const game = new NumtleGame();
+  window.currentGame = game;
+
+  game.currentTarget = data.currentTarget;
+  game.lives = data.lives;
+  game.cards = data.cards;
+  game.lastCleared = data.lastCleared;
+
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('gameScreen').style.display = 'block';
+  game.updateDisplay();
+};
+
+window.submitScore = async function() {
+  const nickname = document.getElementById('nicknameInput').value.trim();
+  if (!nickname) {
+    alert(t('nickAlert'));
+    return;
+  }
+
+  // 버튼 즉시 비활성화 ← 추가
+  const saveBtn = document.querySelector('#nicknameSection .btn-submit');
+  saveBtn.disabled = true;
+
+  const score = window.currentGame.lastCleared;
+  const mode = window.currentGame.mode === 1 ? '+-' : '+-×÷';
 
 
-    window.submitScore = async function() {
-    const nickname = document.getElementById('nicknameInput').value.trim();
-    if (!nickname) {
-      alert('닉네임을 입력해주세요! / Please enter a nickname!');
-      return;
-    }
-
-    const score = window.currentGame.lastCleared;
-    const mode = window.currentGame.mode === 1 ? '+-' : '+-×÷';
-    
     await window.saveScore(nickname, score, mode);
-    
+
     const rank = await window.getMyRank(score, mode);
-    
     if (rank) {
-      document.getElementById('rankDisplay').textContent =
-        `🏆 현재 ${rank}등 / You are ranked #${rank}`;
+      document.getElementById('rankDisplay').textContent = t('rankMsg', rank);
     }
 
-    // TOP 10 랭킹
     const rankings = await window.getRankings(mode);
     const tbody = document.getElementById('rankingsBody');
     tbody.innerHTML = '';
     rankings.forEach((r, i) => {
       const tr = document.createElement('tr');
       if (r.score === score && r.nickname === nickname) tr.className = 'my-rank';
-      tr.innerHTML = `<td>${i+1}</td><td>${r.nickname}</td><td>${r.score}</td>`;
+      tr.innerHTML = `<td>${i + 1}</td><td>${r.nickname}</td><td>${r.score}</td>`;
       tbody.appendChild(tr);
     });
 
@@ -790,3 +940,4 @@ body {
 </script>
 </body>
 </html>
+
