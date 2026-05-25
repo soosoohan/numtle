@@ -49,9 +49,20 @@
     measurementId: "G-S8YMC7R9XL"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
+function getOrCreateUserId() {
+  let uid = localStorage.getItem('numtle_uid');
+  if (!uid) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    uid = Array.from({length: 6}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    localStorage.setItem('numtle_uid', uid);
+  }
+  return uid;
+}
+
+window.getOrCreateUserId = getOrCreateUserId; 
   window.saveScore = async function(nickname, score, mode) {
     try {
       await addDoc(collection(db, "scores"), { nickname, score, mode, timestamp: new Date() });
@@ -859,15 +870,16 @@ saveGame() {
   setTimeout(() => fb.classList.remove('show'), 1500);
 }
 
+gameOver() {
+  document.getElementById('finalScore').textContent = this.lastCleared;
+  document.getElementById('gameOver').style.display = 'flex';
+  document.getElementById('nicknameInput').value = getOrCreateUserId(); // 추가
+  if (this.lastCleared === 0) {
+    document.getElementById('nicknameSection').style.display = 'none';
+  }
+  window.currentGame = this;
+  }
 
-    gameOver() {
-      document.getElementById('finalScore').textContent = this.lastCleared;
-      document.getElementById('gameOver').style.display = 'flex';
-      if (this.lastCleared === 0) {
-        document.getElementById('nicknameSection').style.display = 'none';
-      }
-      window.currentGame = this;
-    }
   }
 
 document.getElementById('startBtn').onclick = () => {
@@ -903,12 +915,11 @@ window.continueGame = function() {
   game.updateDisplay();
 };
 
+
 window.submitScore = async function() {
-  const nickname = document.getElementById('nicknameInput').value.trim();
-  if (!nickname) {
-    alert(t('nickAlert'));
-    return;
-  }
+const nickname = document.getElementById('nicknameInput').value.trim() || getOrCreateUserId();
+
+
 
   // 버튼 즉시 비활성화 ← 추가
   const saveBtn = document.querySelector('#nicknameSection .btn-submit');
@@ -940,4 +951,3 @@ window.submitScore = async function() {
 </script>
 </body>
 </html>
-
