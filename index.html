@@ -873,7 +873,7 @@ saveGame() {
 gameOver() {
   document.getElementById('finalScore').textContent = this.lastCleared;
   document.getElementById('gameOver').style.display = 'flex';
-  document.getElementById('nicknameInput').value = getOrCreateUserId(); // 추가
+  document.getElementById('nicknameInput').value = window.getOrCreateUserId();
   if (this.lastCleared === 0) {
     document.getElementById('nicknameSection').style.display = 'none';
   }
