@@ -463,7 +463,8 @@ body {
 
 </style>
 </head>
-<body data-game-id="numtle" data-game-type="index">
+<body data-game-id="numtle" data-game-type="index" onload="initLanguage()">
+
 <button class="back-button" onclick="location.href='https://soosooland.com/'">Soosooland</button>
 
 <div class="container">
@@ -625,11 +626,19 @@ body {
   }
 
   (function () {
-    const saved = localStorage.getItem('soosoo-lang') || 'ko';
+   const saved = localStorage.getItem('soosoo-lang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
     setLang(saved);
   })();
-  // ───────────────────────────────────────────────
 
+  function initLanguage() {
+  const saved = localStorage.getItem('soosoo-lang');
+  if (saved) {
+    toggleLanguage(saved); // 저장된 값 우선
+  } else {
+    const lang = navigator.language.startsWith('ko') ? 'ko' : 'en';
+    toggleLanguage(lang); // 브라우저 언어 감지
+  }
+}
   // ── 언어별 텍스트 ──
   const T = {
     ko: {
