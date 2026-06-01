@@ -39,15 +39,17 @@
   import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs }
     from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
+  
   const firebaseConfig = {
-    apiKey: "AIzaSyBKPsiVnPXc-_ePKGKvAs08I_jDDoAKdfA",
-    authDomain: "numtle.firebaseapp.com",
-    projectId: "numtle",
-    storageBucket: "numtle.firebasestorage.app",
-    messagingSenderId: "420723421680",
-    appId: "1:420723421680:web:35bc4196e7b9c1a99b6d35",
-    measurementId: "G-S8YMC7R9XL"
-  };
+    apiKey: "AIzaSyBZj3byxktN9IlRoBb0NBSqeKIOHprYPAc",
+    authDomain: "numtle-9ea8a.firebaseapp.com",
+    databaseURL: "https://numtle-9ea8a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "numtle-9ea8a",
+    storageBucket: "numtle-9ea8a.firebasestorage.app",
+    messagingSenderId: "1019599258272",
+    appId: "1:1019599258272:web:c8ce0c3a240f6d1b57ffc5",
+    measurementId: "G-BF5T8QHZGJ"
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
