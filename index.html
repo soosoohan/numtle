@@ -57,8 +57,12 @@ const db = getFirestore(app);
 function getOrCreateUserId() {
   let uid = localStorage.getItem('numtle_uid');
   if (!uid) {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    uid = Array.from({length: 6}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    const C = 'BCDFGHJKLMNPQRSTVWXZ'; // 모음 없음
+    const D = '0123456789';
+    const rc = () => C[Math.floor(Math.random() * C.length)];
+    const rd = () => D[Math.floor(Math.random() * D.length)];
+    // 자음2 + 숫자2 + 자음2 패턴
+    uid = rc() + rc() + rd() + rd() + rc() + rc();
     localStorage.setItem('numtle_uid', uid);
   }
   return uid;
