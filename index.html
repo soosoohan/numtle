@@ -519,13 +519,7 @@ body {
     <span class="lang-ko">게임 시작</span>
     <span class="lang-en">Start Game</span>
   </button>
-  <button class="continue-btn" id="continueBtn" style="display:none; margin-top:0"
-          onclick="window.continueGame()">
-    <span class="lang-ko">이어하기</span>
-    <span class="lang-en">Continue</span>
-  </button>
 </div>
-
 
   </div>
 
@@ -861,22 +855,6 @@ clearExpression() {
   this.updateExpression();
 }
 
-//  저장/불러오기 
-saveGame() {
-  const data = {
-    currentTarget: this.currentTarget,
-    lives: this.lives,
-    cards: this.cards,
-    lastCleared: this.lastCleared,
-    mode: this.mode,
-  };
-  localStorage.setItem('numtle-save', JSON.stringify(data));
-
-  const fb = document.getElementById('saveFeedback');
-  fb.classList.add('show');
-  setTimeout(() => fb.classList.remove('show'), 1500);
-}
-
 gameOver() {
   document.getElementById('finalScore').textContent = this.lastCleared;
   document.getElementById('gameOver').style.display = 'flex';
@@ -894,34 +872,6 @@ document.getElementById('startBtn').onclick = () => {
   window.currentGame = game;
   game.start();
 };
-
-// ── 이어하기 ──────────────────────────────
-(function checkSave() {
-  const saved = localStorage.getItem('numtle-save');
-  if (saved) {
-    document.getElementById('continueBtn').style.display = 'block';
-  }
-})();
-
-window.continueGame = function() {
-  const raw = localStorage.getItem('numtle-save');
-  if (!raw) return;
-  const data = JSON.parse(raw);
-
-  selectedMode = data.mode;
-  const game = new NumtleGame();
-  window.currentGame = game;
-
-  game.currentTarget = data.currentTarget;
-  game.lives = data.lives;
-  game.cards = data.cards;
-  game.lastCleared = data.lastCleared;
-
-  document.getElementById('startScreen').style.display = 'none';
-  document.getElementById('gameScreen').style.display = 'block';
-  game.updateDisplay();
-};
-
 
 window.submitScore = async function() {
 const nickname = document.getElementById('nicknameInput').value.trim() || getOrCreateUserId();
