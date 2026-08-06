@@ -159,13 +159,11 @@ body {
   color: #ffffff;
   border: 2px solid rgba(255,255,255,0.6);
   padding: 10px;
-  margin: 0 3px;
+  margin: 3px;
   border-radius: 10px;
   cursor: pointer;
   font-size: clamp(0.9rem, 2vw, 1rem);
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .language-btn.active {
@@ -204,7 +202,7 @@ body {
 }
 
 .mode-selection { margin: 24px 0; }
-.mode-selection h3 { color: #1a6b3a; margin-bottom: 16px; font-size: 25px; }
+.mode-selection h3 { color: #1a6b3a; margin-bottom: 16px; font-size: 20px; }
 
 .mode-options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
@@ -491,11 +489,12 @@ body {
         <!-- 헤더 -->
         <div class="header">
   <div class="language-toggle">
-    <button class="language-btn active" id="btnKo" onclick="setLang('ko')">한국어</button>
-    <button class="language-btn" id="btnEn" onclick="setLang('en')">English</button>
+    <button class="language-btn active" id="btnKo" onclick="setLang('ko')">한</button>
+    <button class="language-btn" id="btnEn" onclick="setLang('en')">EN</button>
   </div>
 </div>
-              <div class="game-title">넘틀 (NUMTLE)</div>
+              <div class="game-title lang-ko">넘틀</div>
+              <div class="game-title lang-en">NUMTLE</div>
 
 
 
