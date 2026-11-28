@@ -156,10 +156,12 @@ body {
 
   .back-button:active {transform: scale(0.92);transition: transform 0.1s;}
 
-.header {
+header {
+  text-align: center;
+  margin: 0 auto 30px;
+  max-width: 800px;
     display: flex;
     justify-content: center;    
-margin: 0 auto;
     position: relative;
     text-align: center;
 }
@@ -176,9 +178,8 @@ margin: 0 auto;
 
 /* ── 한영 토글 ── */
 .language-toggle {
-    position: absolute;
-  right: 0;
-  top: 0;
+  display: flex;
+  margin-right: 5px;
 }
 
 .language-btn {
@@ -206,9 +207,9 @@ margin: 0 auto;
 }
 
 .main-title {
-    margin: 0 auto;
+    margin: 0 auto 0;
     font-size: 0;
-margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .main-title img {
@@ -291,12 +292,29 @@ margin-bottom: 30px;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  width:100%
+  max-width: 800px;
 }
 
-.back-btn { position: fixed; top: max(48px, env(safe-area-inset-top) + 20px); left: 22px; width: 44px; height: 44px; padding: 0; font-size: 1.8em; font-weight: bold; 
+.back-btn { 
+  margin-left: 22px; 
+  padding: 0; 
+  font-size: 1.8em; 
+  font-weight: bold; 
   background: white;
-    color: #145454;
-  border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;z-index: 100;}
+  color: #145454;
+  border-radius: 12px; 
+  border: none; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  transition: all 0.3s ease;z-index: 100;
+  position: static; margin-left: 44px; flex-shrink: 0;
+  width: 44px; 
+  height: 44px; 
+  z-index: 100; 
+}
 
 .lives-display { font-size: 28px; letter-spacing: 4px;            display: block;
   width: 100%;
@@ -518,26 +536,35 @@ margin-bottom: 30px;
 
 .continue-btn:hover { background: #ca6f1e; }
 
+header { display: flow-root; height: auto !important; }
+.main-title { height: auto !important; }
+.main-title img { position: static !important; float: none !important; }
+
 </style>
 </head>
 <body data-game-id="numtle" data-game-type="index" onload="initLanguage()">
-
-<button class="back-button" onclick="location.href='https://soosooland.com/'" aria-label="수수랜드 홈으로">
-<img src="https://soosooland.com/images/home.png" alt="수수랜드 홈"></button>
-
   
 <div class="container">
+
+
+  <div class="start-screen" id="startScreen">
+
+<link rel="stylesheet" href="toolbar.css">
+<div class="toolbar">
+  <button class="back-button" onclick="location.href='https://soosooland.com/'" aria-label="수수랜드 홈으로">
+  <img src="https://soosooland.com/images/home.png" alt="수수랜드 홈">
+</button>
 <div class="language-toggle">
     <button class="language-btn active" id="btnKo" onclick="setLang('ko')">한국어</button>
     <button class="language-btn" id="btnEn" onclick="setLang('en')">English</button>
 </div>
-
-
-  <div class="start-screen" id="startScreen">
-   <div class="header">
+</div> <!-- .toolbar -->
+<header>
    <h1 class="main-title">
         <img src="https://soosooland.com/numtle/banner.jpeg" alt="NUMTLE 넘틀">
-    </h1> </div>
+    </h1>
+</header>
+
     <div class="game-description">
       <strong class="lang-ko">뜀틀처럼 한 칸씩 높이 뛰어라!</strong>
       <strong class="lang-en">Jump over number hurdles one by one!</strong><br>
